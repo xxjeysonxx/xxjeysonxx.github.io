@@ -1,12 +1,31 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descargar Archivo</title>
+    <title>app clima</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>the page is works!</h1>
-    <button onclick="window.location.href='.well-known'">click me</button>
+    <div id="contenedor">
+        <div id="caja1">
+            <h1 id="temperatura-valor"></h1>
+            <h1 id="temperatura-descripcion"></h1>
+        </div>
+        <div id="caja2">
+            <h2 id="ubicacion"></h2>
+            <img id="icono-animado" src="" alt="" height="128" width="128">
+        </div>
+        <div id="caja3">
+            <h3>veloc. del viento</h3>
+            <h1 id="Viento-velocidad"></h1>
+        </div>
+
+    </div> 
+    <audio autoplay loop>
+        <source src="https://vgmsite.com/soundtracks/wii-forecast-channel/mwnkhvlpyt/04%20Local%20Forecast%20%28Daytime%29.mp3" type="audio/mp3">
+        no supported audio
+    </audio>
+    <script src="assets/app.js"></script>
 </body>
 </html>
