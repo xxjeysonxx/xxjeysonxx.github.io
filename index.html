@@ -1,31 +1,715 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>app clima</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Bitácora Vehicular</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .form-section {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .checkbox-label {
+            background: #e9ecef;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        /* Estilos para el área de firma */
+        .signature-container {
+            margin: 20px 0;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        #signatureCanvas {
+            border: 1px dashed #adb5bd;
+            background-color: white;
+            width: 100%;
+            height: 150px;
+            cursor: crosshair;
+        }
+        .signature-buttons {
+            margin-top: 10px;
+        }
+        .signature-preview {
+            max-width: 200px;
+            max-height: 100px;
+            margin-top: 10px;
+            display: none;
+        }
+        /* Estilos para mensajes de error */
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        /* Efecto de carga */
+        .spinner {
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Mensaje de éxito */
+        .alert-success {
+            display: none;
+        }
+        /* Estilos para la cámara */
+        #cameraContainer {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        #video {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+        }
+        #canvas {
+            display: none;
+        }
+        .camera-controls {
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        #gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .photo-container {
+            position: relative;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        .photo-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .photo-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-size: 12px;
+        }
+        #photoCounter {
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <div id="contenedor">
-        <div id="caja1">
-            <h1 id="temperatura-valor"></h1>
-            <h1 id="temperatura-descripcion"></h1>
-        </div>
-        <div id="caja2">
-            <h2 id="ubicacion"></h2>
-            <img id="icono-animado" src="" alt="" height="128" width="128">
-        </div>
-        <div id="caja3">
-            <h3>veloc. del viento</h3>
-            <h1 id="Viento-velocidad"></h1>
+    <div class="container py-5">
+        <!-- Mensaje de éxito -->
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Éxito!</strong> La revisión ha sido guardada correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
-    </div> 
-    <audio autoplay loop>
-        <source src="https://vgmsite.com/soundtracks/wii-forecast-channel/mwnkhvlpyt/04%20Local%20Forecast%20%28Daytime%29.mp3" type="audio/mp3">
-        no supported audio
-    </audio>
-    <script src="assets/app.js"></script>
+        <h1 class="text-center mb-4">
+            <i class="fas fa-car me-2"></i>Bitácora Vehicular
+        </h1>
+
+        <!-- Formulario de Registro -->
+        <div class="form-section">
+            <h2><i class="fas fa-plus-circle me-2"></i>Nueva Revisión</h2>
+            <form id="revisionForm">
+                <!-- Mensaje de error general -->
+                <div id="formError" class="alert alert-danger d-none"></div>
+                
+                <!-- Sección 1: Datos Generales -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="fecha" class="form-label">Fecha*</label>
+                        <input type="date" class="form-control" id="fecha" required>
+                        <div class="error-message" id="fechaError"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="hora" class="form-label">Hora</label>
+                        <input type="time" class="form-control" id="hora">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="kilometraje" class="form-label">Kilometraje Inicial*</label>
+                        <input type="number" class="form-control" id="kilometraje" required>
+                        <div class="error-message" id="kilometrajeError"></div>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Combustible, Personal y Destino -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="combustible" class="form-label">Nivel de Combustible</label>
+                        <select class="form-select" id="combustible">
+                            <option value="1/4">1/4</option>
+                            <option value="1/2" selected>1/2</option>
+                            <option value="3/4">3/4</option>
+                            <option value="Lleno">Lleno</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="conductor" class="form-label">Conductor*</label>
+                        <input type="text" class="form-control" id="conductor" required>
+                        <div class="error-message" id="conductorError"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="autorizado" class="form-label">Autorizado por</label>
+                        <input type="text" class="form-control" id="autorizado">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="destino" class="form-label">Destino</label>
+                        <input type="text" class="form-control" id="destino">
+                    </div>
+                </div>
+
+                <!-- Sección 4: Chequeos Técnicos -->
+                <h5 class="mt-4 mb-3"><i class="fas fa-tools me-2"></i>Chequeos Técnicos</h5>
+                <div class="checkbox-group mb-4">
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="aceite_motor">
+                        <label class="form-check-label" for="aceite_motor">Aceite Motor</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="aceite_transmision">
+                        <label class="form-check-label" for="aceite_transmision">Aceite Transmisión</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="aceite_power">
+                        <label class="form-check-label" for="aceite_power">Aceite power</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="nivel_agua">
+                        <label class="form-check-label" for="nivel_agua">nivel agua</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="liquido_frenos">
+                        <label class="form-check-label" for="liquido_frenos">Líquido Frenos</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="fuga_fluidos">
+                        <label class="form-check-label" for="fuga_fluidos">Fuga Fluidos</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="luces_general">
+                        <label class="form-check-label" for="luces_general">Luces Generales</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="Carroceria">
+                        <label class="form-check-label" for="Carroceria">Carroceria</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="placas">
+                        <label class="form-check-label" for="placas">Placa delantera y reversa</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="estado_llantas">
+                        <label class="form-check-label" for="estado_llantas">Estado de Llantas</label>
+                    </div>
+                </div>
+
+                <!-- Sección 5: Documentación -->
+                <h5 class="mt-4 mb-3"><i class="fas fa-file-alt me-2"></i>Documentación</h5>
+                <div class="checkbox-group mb-4">
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="tarjeta_circulacion">
+                        <label class="form-check-label" for="tarjeta_circulacion">Tarjeta Circulación</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="tarjeta_caseta">
+                        <label class="form-check-label" for="tarjeta_caseta">Tarjeta de casetas de cobro</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="poliza_seguro">
+                        <label class="form-check-label" for="poliza_seguro">Póliza Seguro</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="llanta_extra">
+                        <label class="form-check-label" for="llanta_extra">Llanta extra</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="revision_cruzeta">
+                        <label class="form-check-label" for="revision_cruzeta">Revision cruzeta</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="revision_gato">
+                        <label class="form-check-label" for="revision_gato">Revision Gato Hidraulico</label>
+                    </div>
+                    <div class="form-check checkbox-label">
+                        <input class="form-check-input" type="checkbox" id="tapon_gasolina">
+                        <label class="form-check-label" for="tapon_gasolina">Tapón de Gasolina</label>
+                    </div>
+                </div>
+
+<!-- Sección 3: Cámara para fotos -->
+<h5 class="mt-4 mb-3"><i class="fas fa-camera me-2"></i>Fotos del Vehículo</h5>
+<div id="cameraContainer">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+</div>
+
+<div class="camera-controls">
+    <button type="button" id="startButton" class="btn btn-primary">
+        <i class="fas fa-camera me-1"></i> Iniciar Cámara
+    </button>
+    <button type="button" id="captureButton" class="btn btn-success" disabled>
+        <i class="fas fa-camera-retro me-1"></i> Tomar Foto
+    </button>
+    <button type="button" id="resetButton" class="btn btn-warning" disabled>
+        <i class="fas fa-redo me-1"></i> Reiniciar Fotos
+    </button>
+</div>
+
+<div id="photoCounter" class="text-muted">Fotos tomadas: <span id="count">0</span>/4</div>
+
+<div id="gallery"></div>
+
+
+                <!-- Sección 6: Firma Digital -->
+                <h5 class="mt-4 mb-3"><i class="fas fa-signature me-2"></i>Firma del Conductor</h5>
+                <div class="signature-container">
+                    <p class="text-muted">Firme en el área siguiente:</p>
+                    <canvas id="signatureCanvas"></canvas>
+                    <div class="signature-buttons">
+                        <button type="button" id="clearSignature" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-eraser me-1"></i> Limpiar
+                        </button>
+                        <button type="button" id="saveSignature" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-check me-1"></i> Guardar Firma
+                        </button>
+                    </div>
+                    <img id="signaturePreview" class="signature-preview" alt="Vista previa de la firma">
+                    <input type="hidden" id="signatureData" name="signature">
+                    <div class="error-message" id="signatureError"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3" id="submitBtn">
+                    <i class="fas fa-save me-2"></i>Guardar Revisión
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS + Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Biblioteca para el canvas de firma -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    
+    <!-- Script para manejar la API, la firma y la cámara -->
+    <script>
+        // Configuración de la API
+        const API_BASE_URL = 'http://192.168.1.243:3000';
+        const API_URL = `${API_BASE_URL}/api/revisiones`;
+        let signaturePad;
+        
+        // Variables para la cámara
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const startButton = document.getElementById('startButton');
+        const captureButton = document.getElementById('captureButton');
+        const resetButton = document.getElementById('resetButton');
+        const countDisplay = document.getElementById('count');
+        const gallery = document.getElementById('gallery');
+        let stream = null;
+        let photoCount = 0;
+        const maxPhotos = 4;
+        const photos = [];
+
+        // Inicializar el canvas de firma y la cámara cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            inicializarFirma();
+            inicializarCamara();
+        });
+
+        function inicializarFirma() {
+            const canvas = document.getElementById('signatureCanvas');
+            signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(255, 255, 255)',
+                penColor: 'rgb(0, 0, 0)'
+            });
+
+            // Ajustar el canvas al tamaño del contenedor
+            function resizeCanvas() {
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                canvas.getContext('2d').scale(ratio, ratio);
+                signaturePad.clear();
+            }
+            
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            // Botón para limpiar la firma
+            document.getElementById('clearSignature').addEventListener('click', function() {
+                signaturePad.clear();
+                document.getElementById('signaturePreview').style.display = 'none';
+                document.getElementById('signatureData').value = '';
+                hideError('signatureError');
+            });
+
+            // Botón para guardar la firma
+            document.getElementById('saveSignature').addEventListener('click', function() {
+                if (signaturePad.isEmpty()) {
+                    showError('signatureError', 'Por favor, realice su firma primero');
+                    return;
+                }
+
+                const signatureData = signaturePad.toDataURL('image/png');
+                document.getElementById('signatureData').value = signatureData;
+                
+                // Mostrar vista previa
+                const preview = document.getElementById('signaturePreview');
+                preview.src = signatureData;
+                preview.style.display = 'block';
+                
+                hideError('signatureError');
+            });
+        }
+        
+        // Funciones para la cámara
+        async function iniciarCamara() {
+    try {
+        // Opciones más compatibles para móviles
+        const constraints = {
+            video: {
+                facingMode: { ideal: 'environment' }, // Prioriza cámara trasera
+                width: { ideal: 1280, max: 1920 },
+                height: { ideal: 720, max: 1080 },
+                frameRate: { ideal: 30, min: 15 }
+            },
+            audio: false
+        };
+
+        // Detener cualquier stream existente primero
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+
+        // Intentar con la configuración ideal
+        stream = await navigator.mediaDevices.getUserMedia(constraints)
+            .catch(async (err) => {
+                console.warn('Intento 1 fallido, probando configuración más básica', err);
+                // Si falla, intentar con requisitos mínimos
+                const constraintsBasicos = {
+                    video: true, // Configuración más básica posible
+                    audio: false
+                };
+                return await navigator.mediaDevices.getUserMedia(constraintsBasicos);
+            });
+
+        video.srcObject = stream;
+        startButton.disabled = true;
+        captureButton.disabled = false;
+        resetButton.disabled = false;
+        
+        console.log('Cámara iniciada correctamente');
+        
+        // Esperar a que el video esté listo para reproducir
+        video.onloadedmetadata = () => {
+            video.play().catch(err => {
+                console.error('Error al reproducir video:', err);
+                showFormError('Error al iniciar la cámara. Intenta recargar la página.');
+            });
+        };
+        
+    } catch (err) {
+        console.error('Error al acceder a la cámara:', err);
+        
+        // Mensajes más específicos según el error
+        let mensajeError = 'No se pudo acceder a la cámara.';
+        
+        if (err.name === 'NotAllowedError') {
+            mensajeError = 'Permiso denegado. Por favor habilita los permisos de cámara en tu navegador.';
+        } else if (err.name === 'NotFoundError') {
+            mensajeError = 'No se encontró cámara disponible.';
+        } else if (err.name === 'NotReadableError') {
+            mensajeError = 'La cámara está siendo usada por otra aplicación.';
+        }
+        
+        // Mostrar alerta con botón para recargar
+        if (confirm(`${mensajeError} ¿Quieres recargar la página para intentarlo de nuevo?`)) {
+            location.reload();
+        }
+    }
+}
+
+// Modificar la función inicializarCamara
+function inicializarCamara() {
+    startButton.addEventListener('click', iniciarCamara);
+            
+            // Tomar foto
+            captureButton.addEventListener('click', () => {
+                if (photoCount >= maxPhotos) {
+                    alert(`Ya has tomado el máximo de ${maxPhotos} fotos`);
+                    return;
+                }
+                
+                // Configurar canvas con las dimensiones del video
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                // Dibujar el frame actual del video en el canvas
+                const context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Obtener la imagen como data URL
+                const photoData = canvas.toDataURL('image/jpeg');
+                photos.push(photoData);
+                photoCount++;
+                
+                // Actualizar contador
+                countDisplay.textContent = photoCount;
+                
+                // Mostrar foto en la galería
+                displayPhoto(photoData, photoCount);
+                
+                // Deshabilitar botón si llegamos al máximo
+                if (photoCount >= maxPhotos) {
+                    captureButton.disabled = true;
+                }
+                
+                console.log(`Foto ${photoCount} tomada`);
+            });
+            
+            // Reiniciar fotos
+            resetButton.addEventListener('click', () => {
+                // Limpiar galería
+                gallery.innerHTML = '';
+                photos.length = 0;
+                photoCount = 0;
+                countDisplay.textContent = '0';
+                
+                // Habilitar botón de captura
+                captureButton.disabled = false;
+                
+                console.log('Fotos reiniciadas');
+            });
+            
+            // Detener la cámara al salir de la página
+            window.addEventListener('beforeunload', () => {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    console.log('Cámara detenida');
+                }
+            });
+        }
+        
+        // Mostrar foto en la galería
+        function displayPhoto(photoData, number) {
+            const photoContainer = document.createElement('div');
+            photoContainer.className = 'photo-container';
+            
+            const img = document.createElement('img');
+            img.src = photoData;
+            img.alt = `Foto ${number}`;
+            
+            const numberBadge = document.createElement('div');
+            numberBadge.className = 'photo-number';
+            numberBadge.textContent = number;
+            
+            photoContainer.appendChild(img);
+            photoContainer.appendChild(numberBadge);
+            gallery.appendChild(photoContainer);
+        }
+
+        // Función para mostrar errores
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        // Función para ocultar errores
+        function hideError(elementId) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'none';
+        }
+
+        // Función para validar el formulario
+        function validarFormulario() {
+            let isValid = true;
+            
+            // Validar campos requeridos
+            if (!document.getElementById('fecha').value) {
+                showError('fechaError', 'La fecha es obligatoria');
+                isValid = false;
+            } else {
+                hideError('fechaError');
+            }
+
+            if (!document.getElementById('kilometraje').value) {
+                showError('kilometrajeError', 'El kilometraje es obligatorio');
+                isValid = false;
+            } else if (isNaN(document.getElementById('kilometraje').value)) {
+                showError('kilometrajeError', 'El kilometraje debe ser un número');
+                isValid = false;
+            } else {
+                hideError('kilometrajeError');
+            }
+
+            if (!document.getElementById('conductor').value) {
+                showError('conductorError', 'El conductor es obligatorio');
+                isValid = false;
+            } else {
+                hideError('conductorError');
+            }
+
+            if (!document.getElementById('signatureData').value) {
+                showError('signatureError', 'Debe guardar su firma');
+                isValid = false;
+            } else {
+                hideError('signatureError');
+            }
+
+            return isValid;
+        }
+
+        // Función para mostrar mensaje de error general
+        function showFormError(message) {
+            const errorElement = document.getElementById('formError');
+            errorElement.textContent = message;
+            errorElement.classList.remove('d-none');
+            setTimeout(() => errorElement.classList.add('d-none'), 5000);
+        }
+
+        // Función para mostrar mensaje de éxito
+        function showSuccess(message) {
+            const successAlert = document.getElementById('successAlert');
+            successAlert.querySelector('strong').nextSibling.textContent = message;
+            successAlert.style.display = 'block';
+            setTimeout(() => successAlert.style.display = 'none', 5000);
+        }
+
+        // Función para enviar datos al backend - VERSIÓN QUE FUNCIONABA
+        document.getElementById('revisionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!validarFormulario()) {
+                return;
+            }
+            
+            // Mostrar estado de carga
+            const submitBtn = document.getElementById('submitBtn');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
+            
+            try {
+                // PREPARAR LOS DATOS COMO EN LA VERSIÓN QUE FUNCIONABA
+                const revisionData = {
+                    fecha: document.getElementById('fecha').value,
+                    hora: document.getElementById('hora').value,
+                    kilometraje_inicial: parseInt(document.getElementById('kilometraje').value),
+                    nivel_combustible: document.getElementById('combustible').value,
+                    conductor: document.getElementById('conductor').value,
+                    autorizado: document.getElementById('autorizado').value,
+                    destino: document.getElementById('destino').value || null,
+                    //Chequeos técnicos
+                    aceite_motor: document.getElementById('aceite_motor').checked,
+                    aceite_transmision: document.getElementById('aceite_transmision').checked,
+                    aceite_power: document.getElementById('aceite_power').checked,
+                    nivel_agua: document.getElementById('nivel_agua').checked,
+                    liquido_frenos: document.getElementById('liquido_frenos').checked,
+                    fuga: document.getElementById('fuga_fluidos').checked,
+                    luces_general: document.getElementById('luces_general').checked,
+                    carroceria: document.getElementById('Carroceria').checked,
+                    placas: document.getElementById('placas').checked,
+                    estado_llantas: document.getElementById('estado_llantas').checked,
+                    //Documentación
+                    tarjeta_circulacion: document.getElementById('tarjeta_circulacion').checked,
+                    tarjeton_casetas: document.getElementById('tarjeta_caseta').checked,
+                    poliza_seguro: document.getElementById('poliza_seguro').checked,
+                    llanta_extra: document.getElementById('llanta_extra').checked,
+                    cruceta: document.getElementById('revision_cruzeta').checked,
+                    gato_hidraulico: document.getElementById('revision_gato').checked,
+                    tapon_gasolina: document.getElementById('tapon_gasolina').checked
+                };
+
+                // SOLO PARA DEBUG: Mostrar datos en consola
+                console.log('Datos a enviar:', revisionData);
+
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(revisionData)
+                });
+
+                if (!response.ok) {
+                    let errorMsg = `Error ${response.status}: ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.message || errorMsg;
+                        if (errorData.errors) {
+                            errorMsg += ` - ${JSON.stringify(errorData.errors)}`;
+                        }
+                    } catch (e) {
+                        console.error('Error al parsear respuesta de error:', e);
+                    }
+                    throw new Error(errorMsg);
+                }
+
+                const data = await response.json();
+                console.log('Respuesta exitosa:', data);
+                
+                // Mostrar mensaje de éxito
+                showSuccess('Revisión guardada correctamente');
+                
+                // Limpiar formulario después de éxito
+                document.getElementById('revisionForm').reset();
+                signaturePad.clear();
+                document.getElementById('signaturePreview').style.display = 'none';
+                
+                // Limpiar fotos (opcional, puedes quitarlo si prefieres mantenerlas)
+                gallery.innerHTML = '';
+                photos.length = 0;
+                photoCount = 0;
+                countDisplay.textContent = '0';
+                captureButton.disabled = false;
+                
+                // Detener cámara
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                    video.srcObject = null;
+                    startButton.disabled = false;
+                }
+                
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+                showFormError(error.message || 'Error al enviar los datos');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+    </script>
 </body>
 </html>
