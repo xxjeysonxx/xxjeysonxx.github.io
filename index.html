@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bitácora Vehicular</title>
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Font Awesome para íconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <style>
         .form-section {
             background-color: #f8f9fa;
@@ -143,21 +143,21 @@
             <form id="revisionForm">
                 <!-- Mensaje de error general -->
                 <div id="formError" class="alert alert-danger d-none"></div>
-                
+
                 <!-- Sección 1: Datos Generales -->
                 <div class="row mb-4">
                     <div class="col-md-4">
                         <label for="fecha" class="form-label">Fecha*</label>
-                        <input type="date" class="form-control" id="fecha" required>
+                        <input type="date" class="form-control" id="fecha" required />
                         <div class="error-message" id="fechaError"></div>
                     </div>
                     <div class="col-md-4">
                         <label for="hora" class="form-label">Hora</label>
-                        <input type="time" class="form-control" id="hora">
+                        <input type="time" class="form-control" id="hora" />
                     </div>
                     <div class="col-md-4">
                         <label for="kilometraje" class="form-label">Kilometraje Inicial*</label>
-                        <input type="number" class="form-control" id="kilometraje" required>
+                        <input type="number" class="form-control" id="kilometraje" required />
                         <div class="error-message" id="kilometrajeError"></div>
                     </div>
                 </div>
@@ -175,16 +175,29 @@
                     </div>
                     <div class="col-md-3">
                         <label for="conductor" class="form-label">Conductor*</label>
-                        <input type="text" class="form-control" id="conductor" required>
+                        <input type="text" class="form-control" id="conductor" required />
                         <div class="error-message" id="conductorError"></div>
                     </div>
                     <div class="col-md-3">
-                        <label for="autorizado" class="form-label">Autorizado por</label>
-                        <input type="text" class="form-control" id="autorizado">
-                    </div>
+    <label for="coche" class="form-label">Coche</label>
+    <select class="form-select" id="coche" name="coche">
+        <option value="">-- Seleccione un coche --</option>
+        <option value="altitude">altitude</option>
+        <option value="frontier">frontier</option>
+        <option value="Ranger">Ranger</option>
+        <option value="superduty">superduty</option>
+        <option value="freightliner">freightliner</option>
+        <option value="h100 hyundai">h100 hyundai</option>
+        <option value="isuzu">isuzu</option>
+        <option value="jac international">jac international</option>
+        <option value="nissan 2012">nissan 2012</option>
+        <option value="peugeot 2022">peugeot 2022</option>
+        <option value="trailer international">trailer international</option>
+    </select>
+</div>
                     <div class="col-md-3">
                         <label for="destino" class="form-label">Destino</label>
-                        <input type="text" class="form-control" id="destino">
+                        <input type="text" class="form-control" id="destino" />
                     </div>
                 </div>
 
@@ -192,43 +205,43 @@
                 <h5 class="mt-4 mb-3"><i class="fas fa-tools me-2"></i>Chequeos Técnicos</h5>
                 <div class="checkbox-group mb-4">
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="aceite_motor">
+                        <input class="form-check-input" type="checkbox" id="aceite_motor" />
                         <label class="form-check-label" for="aceite_motor">Aceite Motor</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="aceite_transmision">
+                        <input class="form-check-input" type="checkbox" id="aceite_transmision" />
                         <label class="form-check-label" for="aceite_transmision">Aceite Transmisión</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="aceite_power">
+                        <input class="form-check-input" type="checkbox" id="aceite_power" />
                         <label class="form-check-label" for="aceite_power">Aceite power</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="nivel_agua">
+                        <input class="form-check-input" type="checkbox" id="nivel_agua" />
                         <label class="form-check-label" for="nivel_agua">nivel agua</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="liquido_frenos">
+                        <input class="form-check-input" type="checkbox" id="liquido_frenos" />
                         <label class="form-check-label" for="liquido_frenos">Líquido Frenos</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="fuga_fluidos">
+                        <input class="form-check-input" type="checkbox" id="fuga_fluidos" />
                         <label class="form-check-label" for="fuga_fluidos">Fuga Fluidos</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="luces_general">
+                        <input class="form-check-input" type="checkbox" id="luces_general" />
                         <label class="form-check-label" for="luces_general">Luces Generales</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="Carroceria">
+                        <input class="form-check-input" type="checkbox" id="Carroceria" />
                         <label class="form-check-label" for="Carroceria">Carroceria</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="placas">
+                        <input class="form-check-input" type="checkbox" id="placas" />
                         <label class="form-check-label" for="placas">Placa delantera y reversa</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="estado_llantas">
+                        <input class="form-check-input" type="checkbox" id="estado_llantas" />
                         <label class="form-check-label" for="estado_llantas">Estado de Llantas</label>
                     </div>
                 </div>
@@ -237,58 +250,57 @@
                 <h5 class="mt-4 mb-3"><i class="fas fa-file-alt me-2"></i>Documentación</h5>
                 <div class="checkbox-group mb-4">
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="tarjeta_circulacion">
+                        <input class="form-check-input" type="checkbox" id="tarjeta_circulacion" />
                         <label class="form-check-label" for="tarjeta_circulacion">Tarjeta Circulación</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="tarjeta_caseta">
+                        <input class="form-check-input" type="checkbox" id="tarjeta_caseta" />
                         <label class="form-check-label" for="tarjeta_caseta">Tarjeta de casetas de cobro</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="poliza_seguro">
+                        <input class="form-check-input" type="checkbox" id="poliza_seguro" />
                         <label class="form-check-label" for="poliza_seguro">Póliza Seguro</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="llanta_extra">
+                        <input class="form-check-input" type="checkbox" id="llanta_extra" />
                         <label class="form-check-label" for="llanta_extra">Llanta extra</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="revision_cruzeta">
+                        <input class="form-check-input" type="checkbox" id="revision_cruzeta" />
                         <label class="form-check-label" for="revision_cruzeta">Revision cruzeta</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="revision_gato">
+                        <input class="form-check-input" type="checkbox" id="revision_gato" />
                         <label class="form-check-label" for="revision_gato">Revision Gato Hidraulico</label>
                     </div>
                     <div class="form-check checkbox-label">
-                        <input class="form-check-input" type="checkbox" id="tapon_gasolina">
+                        <input class="form-check-input" type="checkbox" id="tapon_gasolina" />
                         <label class="form-check-label" for="tapon_gasolina">Tapón de Gasolina</label>
                     </div>
                 </div>
 
-<!-- Sección 3: Cámara para fotos -->
-<h5 class="mt-4 mb-3"><i class="fas fa-camera me-2"></i>Fotos del Vehículo</h5>
-<div id="cameraContainer">
-    <video id="video" autoplay playsinline></video>
-    <canvas id="canvas"></canvas>
-</div>
+                <!-- Sección 3: Cámara para fotos -->
+                <h5 class="mt-4 mb-3"><i class="fas fa-camera me-2"></i>Fotos del Vehículo</h5>
+                <div id="cameraContainer">
+                    <video id="video" autoplay playsinline></video>
+                    <canvas id="canvas"></canvas>
+                </div>
 
-<div class="camera-controls">
-    <button type="button" id="startButton" class="btn btn-primary">
-        <i class="fas fa-camera me-1"></i> Iniciar Cámara
-    </button>
-    <button type="button" id="captureButton" class="btn btn-success" disabled>
-        <i class="fas fa-camera-retro me-1"></i> Tomar Foto
-    </button>
-    <button type="button" id="resetButton" class="btn btn-warning" disabled>
-        <i class="fas fa-redo me-1"></i> Reiniciar Fotos
-    </button>
-</div>
+                <div class="camera-controls">
+                    <button type="button" id="startButton" class="btn btn-primary">
+                        <i class="fas fa-camera me-1"></i> Iniciar Cámara
+                    </button>
+                    <button type="button" id="captureButton" class="btn btn-success" disabled>
+                        <i class="fas fa-camera-retro me-1"></i> Tomar Foto
+                    </button>
+                    <button type="button" id="resetButton" class="btn btn-warning" disabled>
+                        <i class="fas fa-redo me-1"></i> Reiniciar Fotos
+                    </button>
+                </div>
 
-<div id="photoCounter" class="text-muted">Fotos tomadas: <span id="count">0</span>/4</div>
+                <div id="photoCounter" class="text-muted">Fotos tomadas: <span id="count">0</span>/6</div>
 
-<div id="gallery"></div>
-
+                <div id="gallery"></div>
 
                 <!-- Sección 6: Firma Digital -->
                 <h5 class="mt-4 mb-3"><i class="fas fa-signature me-2"></i>Firma del Conductor</h5>
@@ -299,12 +311,10 @@
                         <button type="button" id="clearSignature" class="btn btn-outline-secondary btn-sm">
                             <i class="fas fa-eraser me-1"></i> Limpiar
                         </button>
-                        <button type="button" id="saveSignature" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-check me-1"></i> Guardar Firma
-                        </button>
+                        <!-- Botón Guardar Firma removido para guardar al enviar -->
                     </div>
-                    <img id="signaturePreview" class="signature-preview" alt="Vista previa de la firma">
-                    <input type="hidden" id="signatureData" name="signature">
+                    <img id="signaturePreview" class="signature-preview" alt="Vista previa de la firma" />
+                    <input type="hidden" id="signatureData" name="signature" />
                     <div class="error-message" id="signatureError"></div>
                 </div>
 
@@ -319,397 +329,347 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Biblioteca para el canvas de firma -->
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-    
+
     <!-- Script para manejar la API, la firma y la cámara -->
     <script>
-        // Configuración de la API
-        const API_BASE_URL = 'http://192.168.1.243:3000';
-        const API_URL = `${API_BASE_URL}/api/revisiones`;
-        let signaturePad;
-        
-        // Variables para la cámara
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const startButton = document.getElementById('startButton');
-        const captureButton = document.getElementById('captureButton');
-        const resetButton = document.getElementById('resetButton');
-        const countDisplay = document.getElementById('count');
-        const gallery = document.getElementById('gallery');
-        let stream = null;
-        let photoCount = 0;
-        const maxPhotos = 4;
-        const photos = [];
+    const API_BASE_URL = 'http://192.168.100.21:3000';
+    const API_URL = `${API_BASE_URL}/api/revisiones`;
+    const API_FIRMAS_URL = `${API_BASE_URL}/api/firmas`;
+    const API_FOTOS_URL = `${API_BASE_URL}/api/fotos`;
 
-        // Inicializar el canvas de firma y la cámara cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            inicializarFirma();
-            inicializarCamara();
+    let signaturePad;
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const startButton = document.getElementById('startButton');
+    const captureButton = document.getElementById('captureButton');
+    const resetButton = document.getElementById('resetButton');
+    const countDisplay = document.getElementById('count');
+    const gallery = document.getElementById('gallery');
+    let stream = null;
+    let photoCount = 0;
+    const maxPhotos = 6;
+    const photos = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        inicializarFirma();
+        inicializarCamara();
+    });
+
+    function inicializarFirma() {
+        const canvas = document.getElementById('signatureCanvas');
+        signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'rgb(255, 255, 255)',
+            penColor: 'rgb(0, 0, 0)',
         });
 
-        function inicializarFirma() {
-            const canvas = document.getElementById('signatureCanvas');
-            signaturePad = new SignaturePad(canvas, {
-                backgroundColor: 'rgb(255, 255, 255)',
-                penColor: 'rgb(0, 0, 0)'
-            });
-
-            // Ajustar el canvas al tamaño del contenedor
-            function resizeCanvas() {
-                const ratio = Math.max(window.devicePixelRatio || 1, 1);
-                canvas.width = canvas.offsetWidth * ratio;
-                canvas.height = canvas.offsetHeight * ratio;
-                canvas.getContext('2d').scale(ratio, ratio);
-                signaturePad.clear();
-            }
-            
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            // Botón para limpiar la firma
-            document.getElementById('clearSignature').addEventListener('click', function() {
-                signaturePad.clear();
-                document.getElementById('signaturePreview').style.display = 'none';
-                document.getElementById('signatureData').value = '';
-                hideError('signatureError');
-            });
-
-            // Botón para guardar la firma
-            document.getElementById('saveSignature').addEventListener('click', function() {
-                if (signaturePad.isEmpty()) {
-                    showError('signatureError', 'Por favor, realice su firma primero');
-                    return;
-                }
-
-                const signatureData = signaturePad.toDataURL('image/png');
-                document.getElementById('signatureData').value = signatureData;
-                
-                // Mostrar vista previa
-                const preview = document.getElementById('signaturePreview');
-                preview.src = signatureData;
-                preview.style.display = 'block';
-                
-                hideError('signatureError');
-            });
-        }
-        
-        // Funciones para la cámara
-        async function iniciarCamara() {
-    try {
-        // Opciones más compatibles para móviles
-        const constraints = {
-            video: {
-                facingMode: { ideal: 'environment' }, // Prioriza cámara trasera
-                width: { ideal: 1280, max: 1920 },
-                height: { ideal: 720, max: 1080 },
-                frameRate: { ideal: 30, min: 15 }
-            },
-            audio: false
-        };
-
-        // Detener cualquier stream existente primero
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
+        function resizeCanvas() {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext('2d').scale(ratio, ratio);
+            signaturePad.clear();
         }
 
-        // Intentar con la configuración ideal
-        stream = await navigator.mediaDevices.getUserMedia(constraints)
-            .catch(async (err) => {
-                console.warn('Intento 1 fallido, probando configuración más básica', err);
-                // Si falla, intentar con requisitos mínimos
-                const constraintsBasicos = {
-                    video: true, // Configuración más básica posible
-                    audio: false
-                };
-                return await navigator.mediaDevices.getUserMedia(constraintsBasicos);
-            });
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-        video.srcObject = stream;
-        startButton.disabled = true;
-        captureButton.disabled = false;
-        resetButton.disabled = false;
-        
-        console.log('Cámara iniciada correctamente');
-        
-        // Esperar a que el video esté listo para reproducir
-        video.onloadedmetadata = () => {
-            video.play().catch(err => {
-                console.error('Error al reproducir video:', err);
-                showFormError('Error al iniciar la cámara. Intenta recargar la página.');
-            });
-        };
-        
-    } catch (err) {
-        console.error('Error al acceder a la cámara:', err);
-        
-        // Mensajes más específicos según el error
-        let mensajeError = 'No se pudo acceder a la cámara.';
-        
-        if (err.name === 'NotAllowedError') {
-            mensajeError = 'Permiso denegado. Por favor habilita los permisos de cámara en tu navegador.';
-        } else if (err.name === 'NotFoundError') {
-            mensajeError = 'No se encontró cámara disponible.';
-        } else if (err.name === 'NotReadableError') {
-            mensajeError = 'La cámara está siendo usada por otra aplicación.';
-        }
-        
-        // Mostrar alerta con botón para recargar
-        if (confirm(`${mensajeError} ¿Quieres recargar la página para intentarlo de nuevo?`)) {
-            location.reload();
-        }
+        document.getElementById('clearSignature').addEventListener('click', () => {
+            signaturePad.clear();
+            document.getElementById('signaturePreview').style.display = 'none';
+            document.getElementById('signatureData').value = '';
+            hideError('signatureError');
+        });
     }
-}
 
-// Modificar la función inicializarCamara
-function inicializarCamara() {
-    startButton.addEventListener('click', iniciarCamara);
-            
-            // Tomar foto
-            captureButton.addEventListener('click', () => {
-                if (photoCount >= maxPhotos) {
-                    alert(`Ya has tomado el máximo de ${maxPhotos} fotos`);
-                    return;
-                }
-                
-                // Configurar canvas con las dimensiones del video
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                
-                // Dibujar el frame actual del video en el canvas
-                const context = canvas.getContext('2d');
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
-                // Obtener la imagen como data URL
-                const photoData = canvas.toDataURL('image/jpeg');
-                photos.push(photoData);
-                photoCount++;
-                
-                // Actualizar contador
-                countDisplay.textContent = photoCount;
-                
-                // Mostrar foto en la galería
-                displayPhoto(photoData, photoCount);
-                
-                // Deshabilitar botón si llegamos al máximo
-                if (photoCount >= maxPhotos) {
-                    captureButton.disabled = true;
-                }
-                
-                console.log(`Foto ${photoCount} tomada`);
-            });
-            
-            // Reiniciar fotos
-            resetButton.addEventListener('click', () => {
-                // Limpiar galería
-                gallery.innerHTML = '';
-                photos.length = 0;
-                photoCount = 0;
-                countDisplay.textContent = '0';
-                
-                // Habilitar botón de captura
-                captureButton.disabled = false;
-                
-                console.log('Fotos reiniciadas');
-            });
-            
-            // Detener la cámara al salir de la página
-            window.addEventListener('beforeunload', () => {
-                if (stream) {
-                    stream.getTracks().forEach(track => track.stop());
-                    console.log('Cámara detenida');
-                }
-            });
-        }
-        
-        // Mostrar foto en la galería
-        function displayPhoto(photoData, number) {
-            const photoContainer = document.createElement('div');
-            photoContainer.className = 'photo-container';
-            
-            const img = document.createElement('img');
-            img.src = photoData;
-            img.alt = `Foto ${number}`;
-            
-            const numberBadge = document.createElement('div');
-            numberBadge.className = 'photo-number';
-            numberBadge.textContent = number;
-            
-            photoContainer.appendChild(img);
-            photoContainer.appendChild(numberBadge);
-            gallery.appendChild(photoContainer);
-        }
+    async function iniciarCamara() {
+        try {
+            const constraints = {
+                video: {
+                    facingMode: { ideal: 'environment' },
+                    width: { ideal: 1280, max: 1920 },
+                    height: { ideal: 720, max: 1080 },
+                    frameRate: { ideal: 30, min: 15 },
+                },
+                audio: false,
+            };
 
-        // Función para mostrar errores
-        function showError(elementId, message) {
-            const element = document.getElementById(elementId);
-            element.textContent = message;
-            element.style.display = 'block';
-        }
-
-        // Función para ocultar errores
-        function hideError(elementId) {
-            const element = document.getElementById(elementId);
-            element.style.display = 'none';
-        }
-
-        // Función para validar el formulario
-        function validarFormulario() {
-            let isValid = true;
-            
-            // Validar campos requeridos
-            if (!document.getElementById('fecha').value) {
-                showError('fechaError', 'La fecha es obligatoria');
-                isValid = false;
-            } else {
-                hideError('fechaError');
+            if (stream) {
+                stream.getTracks().forEach((track) => track.stop());
             }
 
-            if (!document.getElementById('kilometraje').value) {
-                showError('kilometrajeError', 'El kilometraje es obligatorio');
-                isValid = false;
-            } else if (isNaN(document.getElementById('kilometraje').value)) {
-                showError('kilometrajeError', 'El kilometraje debe ser un número');
-                isValid = false;
-            } else {
-                hideError('kilometrajeError');
-            }
-
-            if (!document.getElementById('conductor').value) {
-                showError('conductorError', 'El conductor es obligatorio');
-                isValid = false;
-            } else {
-                hideError('conductorError');
-            }
-
-            if (!document.getElementById('signatureData').value) {
-                showError('signatureError', 'Debe guardar su firma');
-                isValid = false;
-            } else {
-                hideError('signatureError');
-            }
-
-            return isValid;
-        }
-
-        // Función para mostrar mensaje de error general
-        function showFormError(message) {
-            const errorElement = document.getElementById('formError');
-            errorElement.textContent = message;
-            errorElement.classList.remove('d-none');
-            setTimeout(() => errorElement.classList.add('d-none'), 5000);
-        }
-
-        // Función para mostrar mensaje de éxito
-        function showSuccess(message) {
-            const successAlert = document.getElementById('successAlert');
-            successAlert.querySelector('strong').nextSibling.textContent = message;
-            successAlert.style.display = 'block';
-            setTimeout(() => successAlert.style.display = 'none', 5000);
-        }
-
-        // Función para enviar datos al backend - VERSIÓN QUE FUNCIONABA
-        document.getElementById('revisionForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!validarFormulario()) {
-                return;
-            }
-            
-            // Mostrar estado de carga
-            const submitBtn = document.getElementById('submitBtn');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
-            
-            try {
-                // PREPARAR LOS DATOS COMO EN LA VERSIÓN QUE FUNCIONABA
-                const revisionData = {
-                    fecha: document.getElementById('fecha').value,
-                    hora: document.getElementById('hora').value,
-                    kilometraje_inicial: parseInt(document.getElementById('kilometraje').value),
-                    nivel_combustible: document.getElementById('combustible').value,
-                    conductor: document.getElementById('conductor').value,
-                    autorizado: document.getElementById('autorizado').value,
-                    destino: document.getElementById('destino').value || null,
-                    //Chequeos técnicos
-                    aceite_motor: document.getElementById('aceite_motor').checked,
-                    aceite_transmision: document.getElementById('aceite_transmision').checked,
-                    aceite_power: document.getElementById('aceite_power').checked,
-                    nivel_agua: document.getElementById('nivel_agua').checked,
-                    liquido_frenos: document.getElementById('liquido_frenos').checked,
-                    fuga: document.getElementById('fuga_fluidos').checked,
-                    luces_general: document.getElementById('luces_general').checked,
-                    carroceria: document.getElementById('Carroceria').checked,
-                    placas: document.getElementById('placas').checked,
-                    estado_llantas: document.getElementById('estado_llantas').checked,
-                    //Documentación
-                    tarjeta_circulacion: document.getElementById('tarjeta_circulacion').checked,
-                    tarjeton_casetas: document.getElementById('tarjeta_caseta').checked,
-                    poliza_seguro: document.getElementById('poliza_seguro').checked,
-                    llanta_extra: document.getElementById('llanta_extra').checked,
-                    cruceta: document.getElementById('revision_cruzeta').checked,
-                    gato_hidraulico: document.getElementById('revision_gato').checked,
-                    tapon_gasolina: document.getElementById('tapon_gasolina').checked
-                };
-
-                // SOLO PARA DEBUG: Mostrar datos en consola
-                console.log('Datos a enviar:', revisionData);
-
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(revisionData)
+            stream = await navigator.mediaDevices
+                .getUserMedia(constraints)
+                .catch(async (err) => {
+                    console.warn('Intento 1 fallido, probando configuración más básica', err);
+                    const constraintsBasicos = { video: true, audio: false };
+                    return await navigator.mediaDevices.getUserMedia(constraintsBasicos);
                 });
 
-                if (!response.ok) {
-                    let errorMsg = `Error ${response.status}: ${response.statusText}`;
-                    try {
-                        const errorData = await response.json();
-                        errorMsg = errorData.message || errorMsg;
-                        if (errorData.errors) {
-                            errorMsg += ` - ${JSON.stringify(errorData.errors)}`;
-                        }
-                    } catch (e) {
-                        console.error('Error al parsear respuesta de error:', e);
-                    }
-                    throw new Error(errorMsg);
-                }
+            video.srcObject = stream;
+            startButton.disabled = true;
+            captureButton.disabled = false;
+            resetButton.disabled = false;
+            video.play();
+        } catch (error) {
+            console.error('Error al iniciar la cámara:', error);
+            alert('No se pudo acceder a la cámara.');
+        }
+    }
 
-                const data = await response.json();
-                console.log('Respuesta exitosa:', data);
-                
-                // Mostrar mensaje de éxito
-                showSuccess('Revisión guardada correctamente');
-                
-                // Limpiar formulario después de éxito
-                document.getElementById('revisionForm').reset();
-                signaturePad.clear();
-                document.getElementById('signaturePreview').style.display = 'none';
-                
-                // Limpiar fotos (opcional, puedes quitarlo si prefieres mantenerlas)
-                gallery.innerHTML = '';
-                photos.length = 0;
-                photoCount = 0;
-                countDisplay.textContent = '0';
-                captureButton.disabled = false;
-                
-                // Detener cámara
-                if (stream) {
-                    stream.getTracks().forEach(track => track.stop());
-                    stream = null;
-                    video.srcObject = null;
-                    startButton.disabled = false;
-                }
-                
-            } catch (error) {
-                console.error('Error en la solicitud:', error);
-                showFormError(error.message || 'Error al enviar los datos');
-            } finally {
+    function inicializarCamara() {
+        startButton.addEventListener('click', iniciarCamara);
+        captureButton.addEventListener('click', () => {
+            if (photoCount >= maxPhotos) {
+                alert(`Solo puedes tomar hasta ${maxPhotos} fotos.`);
+                return;
+            }
+            tomarFoto();
+        });
+        resetButton.addEventListener('click', reiniciarFotos);
+    }
+
+    function tomarFoto() {
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const fotoDataUrl = canvas.toDataURL('image/png');
+        photos.push(fotoDataUrl);
+        photoCount++;
+        countDisplay.textContent = photoCount;
+
+        const photoDiv = document.createElement('div');
+        photoDiv.classList.add('photo-container');
+        const photoNum = document.createElement('div');
+        photoNum.classList.add('photo-number');
+        photoNum.textContent = photoCount;
+        const img = document.createElement('img');
+        img.src = fotoDataUrl;
+        photoDiv.appendChild(photoNum);
+        photoDiv.appendChild(img);
+        gallery.appendChild(photoDiv);
+
+        if (photoCount >= maxPhotos) {
+            captureButton.disabled = true;
+            alert('Has tomado el número máximo de fotos.');
+        }
+    }
+
+    function reiniciarFotos() {
+        photos.length = 0;
+        photoCount = 0;
+        countDisplay.textContent = '0';
+        gallery.innerHTML = '';
+        captureButton.disabled = false;
+    }
+
+    function validarFormulario() {
+        let valido = true;
+
+        const fecha = document.getElementById('fecha').value;
+        if (!fecha) {
+            showError('fechaError', 'La fecha es requerida');
+            valido = false;
+        } else {
+            hideError('fechaError');
+        }
+
+        const km = document.getElementById('kilometraje').value;
+        if (!km || isNaN(km) || Number(km) <= 0) {
+            showError('kilometrajeError', 'Ingrese un kilometraje válido');
+            valido = false;
+        } else {
+            hideError('kilometrajeError');
+        }
+
+        const conductor = document.getElementById('conductor').value.trim();
+        if (!conductor) {
+            showError('conductorError', 'El nombre del conductor es requerido');
+            valido = false;
+        } else {
+            hideError('conductorError');
+        }
+
+        return valido;
+    }
+
+    function showError(id, mensaje) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = mensaje;
+            el.style.display = 'block';
+        }
+    }
+
+    function hideError(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = '';
+            el.style.display = 'none';
+        }
+    }
+
+    function showFormError(mensaje) {
+        const formError = document.getElementById('formError');
+        formError.textContent = mensaje;
+        formError.classList.remove('d-none');
+    }
+
+    function hideFormError() {
+        const formError = document.getElementById('formError');
+        formError.textContent = '';
+        formError.classList.add('d-none');
+    }
+
+    function showSuccess(mensaje) {
+        const alertSuccess = document.getElementById('successAlert');
+        alertSuccess.querySelector('strong').nextSibling.textContent = ' ' + mensaje;
+        alertSuccess.style.display = 'block';
+        setTimeout(() => {
+            alertSuccess.style.display = 'none';
+        }, 5000);
+    }
+
+    async function guardarFirmaEnBackend(base64Firma) {
+        const resp = await fetch(API_FIRMAS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ firma: base64Firma }),
+        });
+        if (!resp.ok) throw new Error('Error al guardar la firma');
+        const data = await resp.json();
+        return data.firma_path;
+    }
+
+    async function guardarFotoEnBackend(base64Foto) {
+        const resp = await fetch(API_FOTOS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ foto: base64Foto }),
+        });
+        if (!resp.ok) throw new Error('Error al guardar la foto');
+        const data = await resp.json();
+        return data.foto_path;
+    }
+
+    async function combinarFotosEnMosaico(fotosArray, cols = 3, rows = 2) {
+        const imgElements = await Promise.all(
+            fotosArray.map(src => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;
+                    img.src = src;
+                });
+            })
+        );
+
+        const width = imgElements[0].width;
+        const height = imgElements[0].height;
+
+        const canvasMosaic = document.createElement('canvas');
+        canvasMosaic.width = width * cols;
+        canvasMosaic.height = height * rows;
+
+        const ctx = canvasMosaic.getContext('2d');
+        imgElements.forEach((img, i) => {
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+            ctx.drawImage(img, col * width, row * height, width, height);
+        });
+
+        return canvasMosaic.toDataURL('image/png');
+    }
+
+    document.getElementById('revisionForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hideFormError();
+        if (!validarFormulario()) return;
+        if (signaturePad.isEmpty()) {
+            showError('signatureError', 'Debe firmar antes de enviar');
+            return;
+        }
+        hideError('signatureError');
+
+        const submitBtn = document.getElementById('submitBtn');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
+
+        try {
+            if (photos.length !== maxPhotos) {
+                showFormError(`Debes tomar exactamente ${maxPhotos} fotos antes de enviar.`);
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
+                return;
             }
-        });
-    </script>
+
+            const fotoCombinada = await combinarFotosEnMosaico(photos);
+            const fotoPath = await guardarFotoEnBackend(fotoCombinada);
+            const firmaPath = await guardarFirmaEnBackend(signaturePad.toDataURL('image/png'));
+
+            const revisionData = {
+                fecha: document.getElementById('fecha').value,
+                hora: document.getElementById('hora').value,
+                kilometraje_inicial: parseInt(document.getElementById('kilometraje').value),
+                nivel_combustible: document.getElementById('combustible').value,
+                conductor: document.getElementById('conductor').value,
+                Coche: document.getElementById('coche').value || null,
+                destino: document.getElementById('destino').value || null,
+                aceite_motor: document.getElementById('aceite_motor').checked,
+                aceite_transmision: document.getElementById('aceite_transmision').checked,
+                aceite_power: document.getElementById('aceite_power').checked,
+                nivel_agua: document.getElementById('nivel_agua').checked,
+                liquido_frenos: document.getElementById('liquido_frenos').checked,
+                fuga: document.getElementById('fuga_fluidos').checked,
+                luces_general: document.getElementById('luces_general').checked,
+                carroceria: document.getElementById('Carroceria').checked,
+                placas: document.getElementById('placas').checked,
+                estado_llantas: document.getElementById('estado_llantas').checked,
+                tarjeta_circulacion: document.getElementById('tarjeta_circulacion').checked,
+                tarjeton_casetas: document.getElementById('tarjeta_caseta').checked,
+                poliza_seguro: document.getElementById('poliza_seguro').checked,
+                llanta_extra: document.getElementById('llanta_extra').checked,
+                cruceta: document.getElementById('revision_cruzeta').checked,
+                gato_hidraulico: document.getElementById('revision_gato').checked,
+                tapon_gasolina: document.getElementById('tapon_gasolina').checked,
+                firma_path: firmaPath,
+                foto_path: fotoPath,
+            };
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(revisionData),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error al guardar la revisión');
+            }
+
+            showSuccess('Revisión guardada correctamente');
+            document.getElementById('revisionForm').reset();
+            signaturePad.clear();
+            document.getElementById('signaturePreview').style.display = 'none';
+            reiniciarFotos();
+
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+                video.srcObject = null;
+                startButton.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error al enviar:', error);
+            showFormError(error.message || 'Error al enviar los datos');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
+    });
+</script>
+
 </body>
 </html>
