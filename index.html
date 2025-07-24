@@ -181,18 +181,17 @@
                     <div class="col-md-3">
     <label for="coche" class="form-label">Coche</label>
     <select class="form-select" id="coche" name="coche">
-        <option value="">-- Seleccione un coche --</option>
-        <option value="altitude">altitude</option>
-        <option value="frontier">frontier</option>
-        <option value="Ranger">Ranger</option>
-        <option value="superduty">superduty</option>
-        <option value="freightliner">freightliner</option>
-        <option value="h100 hyundai">h100 hyundai</option>
-        <option value="isuzu">isuzu</option>
-        <option value="jac international">jac international</option>
-        <option value="nissan 2012">nissan 2012</option>
-        <option value="peugeot 2022">peugeot 2022</option>
-        <option value="trailer international">trailer international</option>
+        <option value="altitude">ALTITUDE</option>
+        <option value="frontier">FRONTIER</option>
+        <option value="Ranger">RANGER</option>
+        <option value="superduty">SUPERDUTY</option>
+        <option value="freightliner">FREIGHTLINER</option>
+        <option value="h100 hyundai">H100 HYUNDAI</option>
+        <option value="isuzu">ISUZU</option>
+        <option value="jac international">JAC INTERNACIONAL</option>
+        <option value="nissan 2012">NISSAN 2012</option>
+        <option value="peugeot 2022">PEUGEOT 2022</option>
+        <option value="trailer international">TRAILER INTERNACIONAL</option>
     </select>
 </div>
                     <div class="col-md-3">
@@ -278,6 +277,12 @@
                         <label class="form-check-label" for="tapon_gasolina">Tapón de Gasolina</label>
                     </div>
                 </div>
+                
+<!-- Sección de Observaciones -->
+<h5 class="mt-4 mb-3"><i class="fas fa-comment-dots me-2"></i>Observaciones</h5>
+<div class="mb-4">
+    <textarea class="form-control" id="observaciones" name="observaciones" rows="4" placeholder="Escriba aquí cualquier observación adicional..."></textarea>
+</div>
 
                 <!-- Sección 3: Cámara para fotos -->
                 <h5 class="mt-4 mb-3"><i class="fas fa-camera me-2"></i>Fotos del Vehículo</h5>
@@ -332,7 +337,7 @@
 
     <!-- Script para manejar la API, la firma y la cámara -->
     <script>
-    const API_BASE_URL = 'http://192.168.100.21:3000';
+    const API_BASE_URL = 'https://192.168.209.101:3000';
     const API_URL = `${API_BASE_URL}/api/revisiones`;
     const API_FIRMAS_URL = `${API_BASE_URL}/api/firmas`;
     const API_FOTOS_URL = `${API_BASE_URL}/api/fotos`;
@@ -636,6 +641,7 @@
                 tapon_gasolina: document.getElementById('tapon_gasolina').checked,
                 firma_path: firmaPath,
                 foto_path: fotoPath,
+                desc: document.getElementById('observaciones').value.trim() || null
             };
 
             const response = await fetch(API_URL, {
