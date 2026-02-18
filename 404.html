@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 - SooraMaru</title>
+
+<style>
+body {
+  margin: 0;
+  background: #e9e9e9;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+h1 {
+  font-size: 70px;
+  margin-bottom: 10px;
+}
+
+img {
+  width: 200px;
+  margin: 20px 0;
+}
+
+p {
+  font-size: 28px;
+  max-width: 400px;
+  line-height: 1.4;
+}
+
+small {
+  margin-top: 15px;
+  opacity: 0.6;
+}
+</style>
+</head>
+
+<body>
+
+<h1>404 D:</h1>
+
+<!-- Cambia la imagen por la tuya -->
+<img src="https://media.discordapp.net/attachments/1044752211164528695/1473496401425207469/image.png?ex=69966bf6&is=69951a76&hm=020860ad96b7e4659d26f433364f268427f1825fe54ba26fbfd122f23c9cf3fa&=&format=webp&quality=lossless&width=596&height=567" alt="404 character">
+
+<p>
+¡Oye! ¡No deberías estar aquí!<br>
+(Redirigiendo...)
+</p>
+
+<small id="countdown"></small>
+
+<script>
+// Mostrar ruta que intentaron abrir
+console.log("Ruta inválida:", window.location.pathname);
+
+// Redirección después de 3 segundos
+let seconds = 3;
+const countdown = document.getElementById("countdown");
+
+const interval = setInterval(() => {
+  countdown.textContent = `Returning to home in ${seconds}...`;
+  seconds--;
+  if (seconds < 0) {
+    clearInterval(interval);
+    window.location.href = "/";
+  }
+}, 1000);
+</script>
+
+</body>
+</html>
