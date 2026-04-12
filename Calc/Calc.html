@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champions Tool | Interface SV Replica</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --row-bg: #f8fafc;
+            --text-main: #1e293b;
+            --text-light: #94a3b8;
+            --highlight: #e2ff31;
+            --accent: #38bdf8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: white;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .search-bar {
+            width: 950px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            background: rgba(15, 23, 42, 0.6);
+            color: white;
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+
+        .search-bar select, .form-bar select {
+            background: #334155;
+            color: white;
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .search-bar button {
+            background: var(--accent);
+            color: #0f172a;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .btn-reset {
+            background: #ef4444 !important;
+            color: white !important;
+        }
+
+        .form-bar { width: 950px; margin-bottom: 25px; }
+
+        .poke-header {
+            width: 950px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .poke-sprite { width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4)); }
+        .poke-name { 
+            font-size: 2.5rem; font-weight: 800; text-transform: capitalize; margin: 10px 0;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .type-badge {
+            background: #475569; padding: 4px 12px; border-radius: 6px;
+            font-size: 0.75rem; font-weight: bold; margin-top: 2px; display: inline-block;
+        }
+
+        .main-layout { display: flex; justify-content: center; width: 950px; }
+        
+        .panel {
+            background: var(--panel-bg); backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 25px; border: 1px solid var(--border);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats-panel { width: 600px; }
+
+        .panel-title {
+            padding-bottom: 15px; font-size: 0.8rem; font-weight: 700;
+            display: flex; justify-content: space-between; color: var(--accent);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .stat-row {
+            background: var(--row-bg); margin-bottom: 10px; border-radius: 12px;
+            display: flex; align-items: center; padding: 0 20px;
+            color: var(--text-main); height: 48px;
+        }
+
+        .stat-row.selected { 
+    background: var(--row-bg); /* Cambiado de --highlight a --row-bg */
+    transform: scale(1.02); 
+}
+        .stat-label { width: 90px; font-weight: 800; font-size: 0.85rem; }
+        .stat-nat-icon { width: 30px; font-size: 1.2rem; text-align: center; }
+        .stat-final-val { width: 55px; text-align: right; font-weight: 900; font-size: 1.2rem; }
+
+        .bar-container { flex-grow: 1; height: 8px; background: #e2e8f0; margin: 0 15px; border-radius: 10px; overflow: hidden; }
+        .bar-fill { height: 100%; background: #94a3b8; transition: width 0.3s; }
+        .stat-row.selected .bar-fill { background: #0f172a; }
+
+        .pts-input {
+            width: 45px; border: none; background: rgba(0,0,0,0.05);
+            border-radius: 6px; padding: 6px; text-align: center; font-weight: 800;
+        }
+
+        .sub-box {
+            background: rgba(15, 23, 42, 0.4); margin: 10px 0; border-radius: 12px;
+            padding: 15px; color: white; text-align: center; font-weight: 600;
+        }
+
+        .nature-up { color: #f87171; }
+        .nature-down { color: #38bdf8; }
+
+        .ev-converter {
+            width: 950px; margin-bottom: 20px; box-sizing: border-box;
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+        .ev-field { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .ev-field label { font-size: 10px; color: var(--accent); font-weight: bold; }
+        .ev-field input { width: 60px; background: white; border-radius: 6px; border: none; padding: 8px; text-align: center; font-weight: bold; }
+
+        footer {
+            margin-top: 50px;
+            width: 950px;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .discord-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #5865F2;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .discord-link:hover { opacity: 0.8; }
+        .discord-icon { width: 24px; height: 24px; fill: currentColor; }
+    </style>
+</head>
+<body>
+
+    <div class="search-bar">
+        <input type="text" id="pokeSearch" placeholder="Nombre del Pokémon...">
+        <select id="natureSelect" onchange="applyGlobalRecalc()">
+            <optgroup label="Neutras">
+                <option value="0-0">Seria / Serious</option>
+                <option value="0-0">Fuerte / Hardy</option>
+                <option value="0-0">Dócil / Docile</option>
+                <option value="0-0">Tímida / Bashful</option>
+                <option value="0-0">Rara / Quirky</option>
+            </optgroup>
+            <optgroup label="+ Ataque">
+                <option value="1-3">Firme / Adamant (+Atk, -SpA)</option>
+                <option value="1-2">Huraña / Lonely (+Atk, -Def)</option>
+                <option value="1-5">Audaz / Brave (+Atk, -Spe)</option>
+                <option value="1-4">Pícara / Naughty (+Atk, -SpD)</option>
+            </optgroup>
+            <optgroup label="+ Defensa">
+                <option value="2-1">Osada / Bold (+Def, -Atk)</option>
+                <option value="2-3">Agitada / Impish (+Def, -SpA)</option>
+                <option value="2-5">Plácida / Relaxed (+Def, -Spe)</option>
+                <option value="2-4">Floja / Lax (+Def, -SpD)</option>
+            </optgroup>
+            <optgroup label="+ At. Especial">
+                <option value="3-1">Modesta / Modest (+SpA, -Atk)</option>
+                <option value="3-2">Afable / Mild (+SpA, -Def)</option>
+                <option value="3-5">Mansa / Quiet (+SpA, -Spe)</option>
+                <option value="3-4">Alocada / Rash (+SpA, -SpD)</option>
+            </optgroup>
+            <optgroup label="+ Def. Especial">
+                <option value="4-1">Serena / Calm (+SpD, -Atk)</option>
+                <option value="4-2">Gentil / Gentle (+SpD, -Def)</option>
+                <option value="4-3">Cauta / Careful (+SpD, -SpA)</option>
+                <option value="4-5">Grosera / Sassy (+SpD, -Spe)</option>
+            </optgroup>
+            <optgroup label="+ Velocidad">
+                <option value="5-3">Alegre / Jolly (+Spe, -SpA)</option>
+                <option value="5-1">Miedosa / Timid (+Spe, -Atk)</option>
+                <option value="5-2">Activa / Hasty (+Spe, -Def)</option>
+                <option value="5-4">Ingenua / Naive (+Spe, -SpD)</option>
+            </optgroup>
+        </select>
+        <button onclick="fetchPokemon()">CARGAR DATOS</button>
+        <button onclick="resetForm()" class="btn-reset">REINICIAR</button>
+    </div>
+
+    <div class="form-bar">
+        <select id="formSelect" onchange="changeForm()">
+            <option value="base">Forma base</option>
+        </select>
+    </div>
+
+    <div class="panel ev-converter">
+        <div style="display: flex; gap: 10px;">
+            <div class="ev-field"><label>PS</label><input type="number" id="ev-0" placeholder="0"></div>
+            <div class="ev-field"><label>ATK</label><input type="number" id="ev-1" placeholder="0"></div>
+            <div class="ev-field"><label>DEF</label><input type="number" id="ev-2" placeholder="0"></div>
+            <div class="ev-field"><label>SPA</label><input type="number" id="ev-3" placeholder="0"></div>
+            <div class="ev-field"><label>SPD</label><input type="number" id="ev-4" placeholder="0"></div>
+            <div class="ev-field"><label>SPE</label><input type="number" id="ev-5" placeholder="0"></div>
+        </div>
+        <button onclick="convertEVsToChampions()" style="background: var(--highlight); color: #0f172a; padding: 10px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer;">
+            PASAR A CHAMPIONS
+        </button>
+    </div>
+
+    <div id="uiContent" style="display: none;">
+        <div class="poke-header">
+            <img id="pokeSprite" class="poke-sprite" src="">
+            <h1 id="mainName" class="poke-name"></h1>
+            <div id="typeContainer"></div>
+        </div>
+
+        <div class="main-layout">
+            <div class="panel stats-panel">
+                <div class="panel-title">
+                    <span>Puntos de característica</span>
+                    <span><span id="ptCounter">0</span> / 66</span>
+                </div>
+                <div id="statsContainer"></div>
+                <div class="panel-title" style="margin-top: 25px;"><span>Naturaleza Seleccionada</span></div>
+                <div class="sub-box" id="natureLabel" style="background: var(--accent); color: #0f172a; text-transform: uppercase;">--</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>&copy; 2026 <strong>Sooramaru</strong> - Champions Tool</div>
+        <a href="https://Sooramaru.xyz/discord" class="discord-link" target="_blank">
+            <svg class="discord-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            Unirse al Discord
+        </a>
+    </footer>
+
+<script>
+let currentPokemon = null;
+let basePokemon = null;
+
+const LVL = 50, IV = 31;
+const statLabels = ['PS','Ataque','Defensa','At. Esp.','Def. Esp.','Velocidad'];
+
+function resetForm() {
+    // Limpiar inputs de texto y números
+    document.getElementById('pokeSearch').value = '';
+    document.getElementById('natureSelect').selectedIndex = 0;
+    document.getElementById('formSelect').innerHTML = '<option value="base">Forma base</option>';
+    
+    // Limpiar inputs de EVs
+    for(let i=0; i<6; i++) {
+        document.getElementById(`ev-${i}`).value = '';
+    }
+
+    // Resetear variables de datos
+    currentPokemon = null;
+    basePokemon = null;
+
+    // Ocultar UI y limpiar contenedores
+    document.getElementById('uiContent').style.display = 'none';
+    document.getElementById('statsContainer').innerHTML = '';
+    document.getElementById('typeContainer').innerHTML = '';
+}
+
+function convertEVsToChampions() {
+    const evInputIds = ['ev-0', 'ev-1', 'ev-2', 'ev-3', 'ev-4', 'ev-5'];
+    evInputIds.forEach((id, i) => {
+        const evValue = parseInt(document.getElementById(id).value) || 0;
+        const championsPoints = Math.floor(evValue / 8);
+        const finalPoints = Math.min(championsPoints, 32);
+        const targetInput = document.getElementById(`in-${i}`);
+        if (targetInput) targetInput.value = finalPoints;
+    });
+    applyGlobalRecalc();
+}
+
+async function fetchPokemon() {
+    const query = document.getElementById('pokeSearch').value.toLowerCase().trim();
+    if(!query) return;
+
+    currentPokemon = null;
+    document.getElementById('statsContainer').innerHTML = '';
+    document.getElementById('typeContainer').innerHTML = '';
+    document.getElementById('pokeSprite').src = '';
+    document.getElementById('mainName').innerText = '';
+    document.getElementById('ptCounter').innerText = '0';
+    document.getElementById('natureLabel').innerText = '--';
+
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
+    currentPokemon = await res.json();
+    basePokemon = currentPokemon;
+    renderUI();
+}
+
+async function changeForm() {
+    const form = document.getElementById("formSelect").value;
+    if (form === "base") {
+        currentPokemon = basePokemon;
+    } else {
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${form}`);
+        currentPokemon = await res.json();
+    }
+    renderUI();
+}
+
+function renderUI() {
+    document.getElementById('uiContent').style.display = 'block';
+    document.getElementById('mainName').innerText = currentPokemon.name;
+    document.getElementById('pokeSprite').src = currentPokemon.sprites.front_default;
+
+    document.getElementById('typeContainer').innerHTML =
+        currentPokemon.types.map(t => `<span class="type-badge">${t.type.name}</span>`).join(' ');
+
+    const container = document.getElementById('statsContainer');
+    container.innerHTML = statLabels.map((label, i) => `
+        <div class="stat-row ${i === 0 ? 'selected' : ''}">
+            <div class="stat-label">${label}</div>
+            <div class="stat-nat-icon" id="icon-${i}"></div>
+            <div class="stat-final-val" id="val-${i}">--</div>
+            <div class="bar-container"><div id="bar-${i}" class="bar-fill"></div></div>
+            <input type="number" class="pts-input" id="in-${i}" min="0" max="32" value="0" oninput="applyGlobalRecalc()">
+        </div>
+    `).join('');
+
+    applyGlobalRecalc();
+}
+
+function applyGlobalRecalc() {
+    if (!currentPokemon) return;
+
+    const [upIdx, downIdx] = document.getElementById('natureSelect').value.split('-').map(Number);
+    let totalPts = 0;
+
+    currentPokemon.stats.forEach((s, i) => {
+        const pts = parseInt(document.getElementById(`in-${i}`).value) || 0;
+        totalPts += pts;
+
+        const base = s.base_stat;
+        const evs = pts * 8;
+
+        let mult = 1.0;
+        if (i !== 0) {
+            if (i === upIdx) mult = 1.1;
+            if (i === downIdx) mult = 0.9;
+        }
+
+        let final;
+        if (i === 0) {
+            final = Math.floor(((2 * base + IV + Math.floor(evs / 4)) * LVL) / 100) + LVL + 10;
+        } else {
+            final = Math.floor((Math.floor(((2 * base + IV + Math.floor(evs / 4)) * LVL) / 100) + 5) * mult);
+        }
+
+        document.getElementById(`val-${i}`).innerText = final;
+        document.getElementById(`bar-${i}`).style.width = `${(pts / 32) * 100}%`;
+
+        const iconEl = document.getElementById(`icon-${i}`);
+        iconEl.innerHTML = '';
+        iconEl.classList.remove('nature-up', 'nature-down');
+
+        if (i !== 0 && upIdx !== downIdx) {
+            if (i === upIdx) { iconEl.innerHTML = '▲'; iconEl.classList.add('nature-up'); }
+            else if (i === downIdx) { iconEl.innerHTML = '▼'; iconEl.classList.add('nature-down'); }
+        }
+    });
+
+    document.getElementById('ptCounter').innerText = totalPts;
+    document.getElementById('natureLabel').innerText = document.getElementById('natureSelect').options[document.getElementById('natureSelect').selectedIndex].text;
+}
+</script>
+
+</body>
+</html>
